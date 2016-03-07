@@ -1,5 +1,6 @@
 package com.pp.inception.model.sql;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,6 +8,30 @@ import java.util.List;
  */
 public class Table {
 
-    String name ;
-    List<String> parametre ;
+
+   private String name ;
+   private List<Column> parametre = new ArrayList<>();
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Column> getParametre() {
+        return parametre;
+    }
+
+    public void setParametre(List<Column> parametre) {
+        this.parametre = parametre;
+    }
+
+    public void addColumn(Column col){
+
+        parametre.add(col) ;
+    }
+
 }

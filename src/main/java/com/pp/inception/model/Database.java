@@ -1,24 +1,38 @@
 package com.pp.inception.model;
 
 import com.pp.inception.model.sql.Table;
+import org.hibernate.annotations.Columns;
 
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by pdinulescu on 3/4/2016.
  */
+@Entity
+@javax.persistence.Table(name = "DATABASE")
+
 public class Database {
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "id")
+    private int id ;
+
+    @Column(name = "type")
     private String type ;
+
+    @Column(name = "name")
     private String name ;
-    private String database ;
+
+    @Column(name = "url")
     private String url ;
+
+    @Column(name = "username")
     private String username ;
+
+    @Column(name = "password")
     private String password ;
-
-
-    List<Table> tables ;
-
 
 
     public String getType() {
@@ -29,15 +43,15 @@ public class Database {
         this.type = type;
     }
 
-    public String getDatabase() {
-        return database;
+    public int getId() {
+        return id;
     }
 
-    public void setDatabase(String database) {
-        this.database = database;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getUrl() {
+   public String getUrl() {
         return url;
     }
 
@@ -67,14 +81,6 @@ public class Database {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Table> getTables() {
-        return tables;
-    }
-
-    public void setTables(List<Table> tables) {
-        this.tables = tables;
     }
 
 }

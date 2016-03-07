@@ -23,7 +23,7 @@ package com.pp.inception.config;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({ "com.pp.inception.config" })
+@ComponentScan({ "com.pp.inception.config", "com.pp.inception.controller" })
 @PropertySource(value = { "classpath:application.properties" })
 public class HibernateConfiguration {
 

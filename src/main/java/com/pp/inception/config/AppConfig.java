@@ -17,7 +17,7 @@ package com.pp.inception.config;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.pp.inception.controller com.pp.inception.service.connection")
+@ComponentScan(basePackages={"com.pp.inception.controller","com.pp.inception.service.connection"})
 
 public class AppConfig {
 

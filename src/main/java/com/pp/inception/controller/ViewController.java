@@ -1,5 +1,9 @@
 package com.pp.inception.controller;
 
+import com.pp.inception.model.sql.Column;
+import com.pp.inception.model.sql.Table;
+import com.pp.inception.service.connection.ConnectionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,83 +21,25 @@ import java.util.List;
 @Controller
 public class ViewController {
 
-
-
-    String database = "protein_tracker" ;
-    String url = "jdbc:mysql://localhost:3306/"+database;
-    String username = "root";
-    String password = "root2";
+    @Autowired
+    private ConnectionService hibernateConnectionService;
 
 
     @RequestMapping( value ="views", method = RequestMethod.GET)
     @ResponseBody
-    public List<String> findTables() throws ClassNotFoundException {
-        List<String> response =new ArrayList<>();
+    public List<String> findViews() throws ClassNotFoundException {
 
-        System.out.println("Connecting database...");
-        Class.forName("com.mysql.jdbc.Driver");
-
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
-
-            System.out.println("Database connected!");
-            DatabaseMetaData metaData = connection.getMetaData() ;
-
-            ResultSet rs1 = metaData.getTables(null, null, null,new String[] {"VIEW"});
-            while (rs1.next()) {
-                System.out.println(rs1.getString("TABLE_NAME"));
-                response.add(rs1.getString("TABLE_NAME") );
-            }
-
-            rs1.close();
-            connection.close();
-
-        } catch (SQLException e) {
-            throw new IllegalStateException("Cannot connect the database!", e);
-        }
-
-
-        return response ;
+        return  hibernateConnectionService.getAllViews()   ;
     }
 
 
 
     @RequestMapping( value ="views/{name}", method = RequestMethod.GET)
     @ResponseBody
-    public List<String> showStructureTable(@PathVariable String name) throws ClassNotFoundException {
-        List<String> response =new ArrayList<>();
-        System.out.println("name of table :" + name);
-        System.out.println("Connecting database...");
-        Class.forName("com.mysql.jdbc.Driver");
+    public List<Column> showStructureViews(@PathVariable String name) throws ClassNotFoundException {
 
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            System.out.println("Database connected!");
-            DatabaseMetaData metaData = connection.getMetaData() ;
+        return hibernateConnectionService.getStructureViews(name) ;
 
-            ResultSet res = metaData.getColumns(null, null,name ,null);
-            while (res.next()) {
-                System.out.println("entrer" );
-                System.out.println(
-//                        " " + res.getString("TABLE_SCHEM") + ", "+
-                                 res.getString("TABLE_NAME")
-                                + ", "+res.getString("COLUMN_NAME")
-                                + ", "+res.getString("TYPE_NAME")
-                                + ", "+res.getInt("COLUMN_SIZE")
-                                + ", "+res.getInt("NULLABLE"));
-
-                response.add(res.getString("TABLE_NAME")
-                        + ", "+res.getString("COLUMN_NAME")
-                        + ", "+res.getString("TYPE_NAME")
-                        + ", "+res.getInt("COLUMN_SIZE")
-                        + ", "+res.getInt("NULLABLE"));
-            }
-            res.close();
-
-            connection.close();
-        } catch (SQLException e) {
-            throw new IllegalStateException("Cannot connect the database!", e);
-        }
-
-        return response ;
     }
 
 
