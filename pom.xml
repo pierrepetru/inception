@@ -30,6 +30,7 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
             </dependency>
+
             <!-- Security -->
             <dependency>
                 <groupId>org.springframework.security</groupId>
@@ -124,6 +125,19 @@
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-mongodb</artifactId>
             </dependency>
+            <!-- mongodb java driver -->
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongo-java-driver</artifactId>
+                <version>3.2.2</version>
+            </dependency>
+            <!-- constante -->
+            <dependency>
+                <groupId>com.typesafe</groupId>
+                <artifactId>config</artifactId>
+                <version>1.0.2</version>
+            </dependency>
+
             <!-- Validation -->
             <dependency>
                 <groupId>org.hibernate</groupId>

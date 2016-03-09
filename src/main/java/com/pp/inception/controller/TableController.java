@@ -1,24 +1,14 @@
 package com.pp.inception.controller;
 
-import com.pp.inception.config.HibernateConfiguration;
-import com.pp.inception.model.Database;
 import com.pp.inception.model.sql.Column;
 import com.pp.inception.service.connection.ConnectionService;
-import com.pp.inception.service.connection.ConnectionSqlService;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.naming.NamingException;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 
 /**
@@ -30,6 +20,35 @@ public class TableController {
 
     @Autowired()
     private ConnectionService hibernateConnectionService;
+
+
+
+    @RequestMapping( value = "tables/{name}/{fieldName}",method = RequestMethod.GET )
+    @ResponseBody
+    public List findDataColumnTable(@PathVariable String name, @PathVariable String fieldName) {
+
+        return hibernateConnectionService.getDataColumnTable(name, fieldName, 0, 100);
+
+    }
+
+    @RequestMapping( value = "tables/{name}/{fieldName}",params = { "page", "pageCount" },method = RequestMethod.GET )
+    @ResponseBody
+    public List findDataColumnTable(
+            @RequestParam(value = "page", required = false ) Optional<Integer> page, @RequestParam( value ="pageCount", required = false ) Optional<Integer> size, @PathVariable String name, @PathVariable String fieldName){
+
+        int pageDef = 0 ;
+        int sizeDef = 100 ;
+
+        if( page.isPresent() ){
+            pageDef = page.get();
+        }
+        if( size.isPresent() ){
+            sizeDef = size.get();
+        }
+
+        return hibernateConnectionService.getDataColumnTable(name, fieldName, pageDef, sizeDef);
+
+    }
 
 
     @RequestMapping(value = "tables", method = RequestMethod.GET)
@@ -58,7 +77,7 @@ public class TableController {
         Database dt = new Database();
         dt.setUsername("pierre");
         dt.setName("databasepersonnel");
-        dt.setPassword("toto");
+        dt.setPassword("config");
         dt.setType("sql");
         dt.setUrl("hjjhhh");
         session.persist(dt);

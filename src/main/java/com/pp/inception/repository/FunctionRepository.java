@@ -1,23 +1,14 @@
-package com.pp.inception.service.connection;
+package com.pp.inception.repository;
 
 import com.pp.inception.model.sql.Column;
-import com.pp.inception.model.sql.Table;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.naming.NamingException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Created by pdinulescu on 3/4/2016.
+ * Created by pdinulescu on 3/9/2016.
  */
-public interface ConnectionService {
-
-
-
-    String connecte() ;
+public interface FunctionRepository {
 
     List<String> getAllTables() throws SQLException, ClassNotFoundException;
     List<Column> getStructureTable(String name) ;
@@ -27,6 +18,4 @@ public interface ConnectionService {
     List<Column> getStructureViews(String name) ;
     List getDataColumnView(String name,String fieldName, int page, int size);
 
-
 }
-
